@@ -25,6 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <p>${details.description}</p>
           <p><strong>Agenda:</strong> ${details.schedule}</p>
           <p><strong>Disponibilidade:</strong> ${spotsLeft} vagas disponíveis</p>
+          <ul class="participants"></ul>
         `;
 
         activitiesList.appendChild(activityCard);
@@ -34,6 +35,14 @@ document.addEventListener("DOMContentLoaded", () => {
         option.value = name;
         option.textContent = name;
         activitySelect.appendChild(option);
+
+        // Populate participants list
+        const participantsList = activityCard.querySelector(".participants");
+        details.participants.forEach((participant) => {
+          const li = document.createElement("li");
+          li.textContent = participant;
+          participantsList.appendChild(li);
+        });
       });
     } catch (error) {
       activitiesList.innerHTML = "<p>Falha ao carregar atividades. Por favor, tente novamente mais tarde.</p>";
@@ -83,4 +92,32 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Initialize app
   fetchActivities();
+});
+
+// Exemplo de dados de atividades e participantes
+const atividades = [
+  {
+    id: 1,
+    titulo: 'Atividade 1',
+    participantes: ['Ana Souza', 'João Silva', 'Maria Oliveira']
+  },
+  {
+    id: 2,
+    titulo: 'Atividade 2',
+    participantes: ['Carlos Lima', 'Fernanda Alves']
+  }
+];
+
+window.addEventListener('DOMContentLoaded', () => {
+  const cards = document.querySelectorAll('.card');
+  cards.forEach((card, idx) => {
+    const ul = card.querySelector('.participants');
+    ul.innerHTML = '';
+    const lista = atividades[idx]?.participantes || [];
+    lista.forEach(nome => {
+      const li = document.createElement('li');
+      li.textContent = nome;
+      ul.appendChild(li);
+    });
+  });
 });
